@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <title>Unos / Izmena komitenta</title>
+
+</head>
+<body>
+<form th:action="@{/komitent/sacuvaj}" method="POST">
+    <h3 class="form__field-label">PIB:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="pib" th:value="*{komitent.pib}"/>
+    </div>
+
+    <h3 class="form__field-label">Naziv:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="naziv" th:value="*{komitent.naziv}"/>
+    </div>
+
+    <h3 class="form__field-label">Adresa:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="adresa" th:value="*{komitent.adresa}"/>
+    </div>
+
+    <h3 class="form__field-label">Telefon:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="telefon" th:value="*{komitent.telefon}"/>
+    </div>
+
+    <h3 class="form__field-label">Fax:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="fax" th:value="*{komitent.fax}"/>
+    </div>
+    <h3 class="form__field-label">Website:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="website" th:value="*{komitent.website}"/>
+    </div>
+    <h3 class="form__field-label">Email:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="email" th:value="*{komitent.email}"/>
+    </div>
+    <h3 class="form__field-label">Registarski broj</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="registarskiBroj" th:value="*{komitent.registarskiBroj}"/>
+    </div>
+    <h3 class="form__field-label">Sifra delatnosti:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="sifraDelatnosti" th:value="*{komitent.sifraDelatnosti}"/>
+    </div>
+
+    <button class="btn__submit" type="submit">Sacuvaj</button>
+</form>
+
+</body>
+</html>
