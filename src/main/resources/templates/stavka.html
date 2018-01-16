@@ -4,39 +4,40 @@
     <meta charset="UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!--<link rel="stylesheet" type="text/css" href="style.css"/>-->
-    <title>Lista komitenata</title>
+    <title>Dodavanje stavke naloga za nabavku</title>
 
 </head>
 <body>
-<h1>Komitenti</h1>
-<table>
-    <table th:border="1" class="table">
-        <thead>
-        <tr>
-            <th>Rb</th>
-            <th>PIB</th>
-            <th>Naziv</th>
-            <th>Izmeni</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="komitent,iter : ${komitenti}">
-            <th th:text="1+${iter.index}"></th>
-            <th th:text="${komitent.pib}"></th>
-            <th th:text="${komitent.naziv}"></th>
-            <th>
-                <button th:onclick="'izmeniKomitenta(\''+${komitent.pib}+'\');'">Izmeni</button>
-                <button th:onclick="'obrisiKomitenta(\''+${komitent.pib}+'\');'" >Obrisi</button>
-            </th>
-        </tr>
-        </tbody>
+<h1>Nova stavka</h1>
 
-    </table>
-</table>
+<form th:action="@{/zahtev/sacuvajStavku}" method="POST">
+    <h3 class="form__field-label">Artikal:</h3>
+    <div class="form__field form__field--code">
+        <select field="artikal" name="artikal">
+            <option th:each="artikal : ${artikli}"
+                    th:value="${artikal.kataloskiBroj}"
+                    th:text="${artikal.naziv}">
+            </option>
+        </select>
+    </div>
 
-<form th:action="@{/komitent/forma}" method="GET"
-      id="dodajKomitenta">
-    <button class="btn__submit" type="submit">Dodaj komitenta</button>
+    <h3 class="form__field-label">Kolicina:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="kolicina" th:value="*{stavka.kolicina}"/>
+    </div>
+
+    <button class="btn__submit" type="submit">Sacuvaj</button>
+</form>
+
+
+<form th:action="@{/zahtev/forma}" method="GET"
+      id="dodajStavku">
+    <button class="btn__submit" type="submit">Napravi zahtev</button>
+</form>
+
+<form th:action="@{/zahtev/forma}" method="GET"
+      id="dodajZahtev">
+    <button class="btn__submit" type="submit">Napravi zahtev</button>
 </form>
 
 <form style="display: none" th:action="@{/komitent/forma}" method="GET"

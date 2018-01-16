@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author fkrstev
- * Created on 13-Jan-18
+ *         Created on 13-Jan-18
  */
 @Controller
 @RequestMapping(value = "/komitent")
@@ -27,7 +27,7 @@ public class KomitentController {
     }
 
     @RequestMapping(value = "/forma", method = RequestMethod.GET)
-    public String komitent(Model model, @RequestParam(value = "pib") Long pib) {
+    public String komitent(Model model, @RequestParam(value = "pib", required = false, defaultValue = "0") Long pib) {
         Komitent komitent = komitentService.vratiKomitentaPoPibu(pib);
         if (komitent == null) {
             komitent = new Komitent();
@@ -37,7 +37,7 @@ public class KomitentController {
     }
 
     @RequestMapping(value = "/sacuvaj", method = RequestMethod.POST)
-    public String dodajIzmeniKomitenta(Model model, @RequestParam(value = "pib") Long pib, @RequestParam(value = "naziv") String naziv, @RequestParam(value = "adresa") String adresa, @RequestParam(value = "telefon") String telefon, @RequestParam(value = "fax") String fax, @RequestParam(value = "website") String website, @RequestParam(value = "email") String email, @RequestParam(value = "registarskiBroj") String registarskiBroj, @RequestParam(value = "sifraDelatnosti") int sifraDelatnosti) {
+    public String dodajIzmeniKomitenta(Model model, @RequestParam(value = "pib") Long pib, @RequestParam(value = "naziv") String naziv, @RequestParam(value = "adresa", required = false) String adresa, @RequestParam(value = "telefon", required = false) String telefon, @RequestParam(value = "fax", required = false) String fax, @RequestParam(value = "website", required = false) String website, @RequestParam(value = "email", required = false) String email, @RequestParam(value = "registarskiBroj") String registarskiBroj, @RequestParam(value = "sifraDelatnosti") int sifraDelatnosti) {
         Komitent komitent = Komitent.builder()
                 .pib(pib)
                 .naziv(naziv)
@@ -51,7 +51,7 @@ public class KomitentController {
                 .build();
         komitentService.sacuvajKomitenta(komitent);
         model.addAttribute("komitent", komitent);
-        return "unosIzmenaKomitent";
+        return komitenti(model);
     }
 
     @RequestMapping(value = "/obrisi", method = RequestMethod.POST)

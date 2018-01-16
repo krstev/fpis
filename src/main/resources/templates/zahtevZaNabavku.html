@@ -4,29 +4,29 @@
     <meta charset="UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!--<link rel="stylesheet" type="text/css" href="style.css"/>-->
-    <title>Lista komitenata</title>
+    <title>Lista zahteva za nabavku</title>
 
 </head>
 <body>
-<h1>Komitenti</h1>
+<h1>Zahtevi za nabavku</h1>
 <table>
     <table th:border="1" class="table">
         <thead>
         <tr>
             <th>Rb</th>
-            <th>PIB</th>
-            <th>Naziv</th>
+            <th>Datum kreiranja</th>
+            <th>Kreirao</th>
             <th>Izmeni</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="komitent,iter : ${komitenti}">
+        <tr th:each="zahtev,iter : ${zahtevi}">
             <th th:text="1+${iter.index}"></th>
-            <th th:text="${komitent.pib}"></th>
-            <th th:text="${komitent.naziv}"></th>
+            <th th:text="${zahtev.kreiran}"></th>
+            <th th:text="${zahtev.kreirao.ime}"></th>
             <th>
-                <button th:onclick="'izmeniKomitenta(\''+${komitent.pib}+'\');'">Izmeni</button>
-                <button th:onclick="'obrisiKomitenta(\''+${komitent.pib}+'\');'" >Obrisi</button>
+                <button th:onclick="'izmeniZahtev(\''+${zahtev.id}+'\');'">Izmeni</button>
+                <button th:onclick="'obrisiZahtev(\''+${zahtev.id}+'\');'">Obrisi</button>
             </th>
         </tr>
         </tbody>
@@ -34,17 +34,17 @@
     </table>
 </table>
 
-<form th:action="@{/komitent/forma}" method="GET"
-      id="dodajKomitenta">
-    <button class="btn__submit" type="submit">Dodaj komitenta</button>
+<form th:action="@{/zahtev/forma}" method="GET"
+      id="dodajZahtev">
+    <button class="btn__submit" type="submit">Napravi zahtev</button>
 </form>
 
-<form style="display: none" th:action="@{/komitent/forma}" method="GET"
-      id="izmeniKomitenta">
+<form style="display: none" th:action="@{/zahtev/forma}" method="GET"
+      id="izmeniZahtev">
     <div class="form__field form__field--code">
         <input class="form__field"
                type="text"
-               id="pibParam"
+               id="idParam"
                name="pib"
         >
         </input>
@@ -53,11 +53,11 @@
 </form>
 
 <form style="display: none" th:action="@{/komitent/obrisi}" method="POST"
-      id="brisanjeKomitenta" onsubmit="reload()">
+      id="brisanjeZahteva" onsubmit="reload()">
     <div class="form__field form__field--code">
         <input class="form__field"
                type="text"
-               id="pibParamObrisi"
+               id="idParamObrisi"
                name="pib"
         >
         </input>
@@ -75,15 +75,15 @@
         }, 9000);
     }
 
-    function izmeniKomitenta(pib) {
-        console.log('pib : ' + pib)
-        $('#pibParam').val(pib);
-        $('#izmeniKomitenta').submit();
+    function izmeniZahtev(id) {
+        console.log('id : ' + id)
+        $('#idParam').val(id);
+        $('#izmeniZahtev').submit();
     }
 
-    function obrisiKomitenta(pib) {
-        console.log('pib : ' + pib)
-        $('#pibParamObrisi').val(pib);
-        $('#brisanjeKomitenta').submit();
+    function obrisiZahtev(id) {
+        console.log('id : ' + id)
+        $('#idParamObrisi').val(id);
+        $('#brisanjeZahteva').submit();
     }
 </script>
