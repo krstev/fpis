@@ -3,77 +3,94 @@
 <head>
     <meta charset="UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="style.css"/>-->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}" type="text/css"/>
     <title>Lista zahteva za nabavku</title>
 
 </head>
 <body>
-<h1>Zahtev za nabavku</h1>
+<div class="sredina">
 
-<h3 class="form__field-label">Datum kreiranja:</h3>
-<div class="form__field form__field--code">
-    <input type="text" name="pib" th:value="*{zahtev.kreiran}"/>
+    <h1>Zahtev za nabavku</h1>
+
+    <h3 class="form__field-label">Datum kreiranja:</h3>
+    <div class="form__field form__field--code">
+        <input type="text" name="pib" th:value="*{zahtev.kreiran}"/>
+    </div>
+
+
+    <table th:border="1" class="table">
+        <thead>
+        <tr>
+            <th>Rb</th>
+            <th>Artikal</th>
+            <th>Kolicina</th>
+            <th>Izmeni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="stavka,iter : ${zahtev.stavke}">
+            <th th:text="1+${iter.index}"></th>
+            <th th:text="${stavka.artikal.naziv}"></th>
+            <th th:text="${stavka.kolicina}"></th>
+            <th>
+                <button th:onclick="'izmeniStavku(\''+${iter.index}+'\');'">Izmeni</button>
+                <button th:onclick="'obrisiStavku(\''+${iter.index}+'\');'">Obrisi</button>
+            </th>
+        </tr>
+        </tbody>
+
+    </table>
+
+    <form th:action="@{/zahtev/stavkaForma}" method="GET"
+          id="dodajStavku">
+        <button class="btn__submit" type="submit">Dodaj Stavku</button>
+    </form>
+
+    <form th:action="@{/zahtev/sacuvaj}" method="POST"
+          id="dodajZahtev">
+        <h3 class="form__field-label">Radnik</h3>
+        <div class="form__field form__field--code">
+            <select field="radnikId" name="radnikId">
+                <option th:each="radnik : ${radnici}"
+                        th:value="${radnik.id}"
+                        th:text="${radnik.punoIme()}"
+                        th:selected="${radnik==zahtev.kreirao}">
+                </option>
+            </select>
+        </div>
+        <h3 class="form__field-label">Identifikacioni broj</h3>
+        <div class="form__field form__field--code">
+            <input type="text" name="identifikacioniBroj"/>
+        </div>
+        <button class="btn__submit" type="submit">Sacuvaj</button>
+    </form>
+
+    <form style="display: none" th:action="@{/zahtev/stavkaForma}" method="GET"
+          id="izmenaStavke">
+        <div class="form__field form__field--code">
+            <input class="form__field"
+                   type="text"
+                   id="rbParam"
+                   name="rb"
+            >
+            </input>
+        </div>
+        <button class="btn__submit" type="submit"></button>
+    </form>
+
+    <form style="display: none" th:action="@{/zahtev/obrisiStavku}" method="POST"
+          id="brisanjeStavke" onsubmit="reload()">
+        <div class="form__field form__field--code">
+            <input class="form__field"
+                   type="text"
+                   id="rbParamObrisi"
+                   name="rb"
+            >
+            </input>
+        </div>
+        <button class="btn__submit" type="submit"></button>
+    </form>
 </div>
-
-
-<table th:border="1" class="table">
-    <thead>
-    <tr>
-        <th>Rb</th>
-        <th>Artikal</th>
-        <th>Kolicina</th>
-        <th>Izmeni</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="stavka,iter : ${zahtev.stavke}">
-        <th th:text="1+${iter.index}"></th>
-        <th th:text="${stavka.artikal.naziv}"></th>
-        <th th:text="${stavka.kolicina}"></th>
-        <th>
-            <button th:onclick="'izmeniKomitenta(\''+${iter.index}+'\');'">Izmeni</button>
-            <button th:onclick="'obrisiKomitenta(\''+${iter.index}+'\');'">Obrisi</button>
-        </th>
-    </tr>
-    </tbody>
-
-</table>
-
-<form th:action="@{/zahtev/stavkaForma}" method="GET"
-      id="dodajStavku">
-    <button class="btn__submit" type="submit">Dodaj Stavku</button>
-</form>
-
-<form th:action="@{/zahtev/forma}" method="GET"
-      id="dodajZahtev">
-    <button class="btn__submit" type="submit">Napravi zahtev</button>
-</form>
-
-<form style="display: none" th:action="@{/komitent/forma}" method="GET"
-      id="izmeniKomitenta">
-    <div class="form__field form__field--code">
-        <input class="form__field"
-               type="text"
-               id="pibParam"
-               name="pib"
-        >
-        </input>
-    </div>
-    <button class="btn__submit" type="submit"></button>
-</form>
-
-<form style="display: none" th:action="@{/komitent/obrisi}" method="POST"
-      id="brisanjeKomitenta" onsubmit="reload()">
-    <div class="form__field form__field--code">
-        <input class="form__field"
-               type="text"
-               id="pibParamObrisi"
-               name="pib"
-        >
-        </input>
-    </div>
-    <button class="btn__submit" type="submit"></button>
-</form>
 </body>
 </html>
 <script>
@@ -85,15 +102,15 @@
         }, 9000);
     }
 
-    function izmeniKomitenta(pib) {
-        console.log('pib : ' + pib)
-        $('#pibParam').val(pib);
-        $('#izmeniKomitenta').submit();
+    function izmeniStavku(rb) {
+        console.log('rb : ' + rb)
+        $('#rbParam').val(rb);
+        $('#izmenaStavke').submit();
     }
 
-    function obrisiKomitenta(pib) {
-        console.log('pib : ' + pib)
-        $('#pibParamObrisi').val(pib);
-        $('#brisanjeKomitenta').submit();
+    function obrisiStavku(rb) {
+        console.log('rb : ' + rb)
+        $('#rbParamObrisi').val(rb);
+        $('#brisanjeStavke').submit();
     }
 </script>

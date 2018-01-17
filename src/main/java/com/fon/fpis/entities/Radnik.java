@@ -23,4 +23,8 @@ public class Radnik {
     private String prezime;
 
     private String identifikacioniBroj;
+
+    public String punoIme() {
+        return ime + " " + prezime;
+    }
 }

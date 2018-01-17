@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author fkrstev
- *         Created on 13-Jan-18
+ * Created on 13-Jan-18
  */
 @Controller
 @RequestMapping(value = "/komitent")
@@ -20,7 +20,7 @@ public class KomitentController {
     @Autowired
     private KomitentService komitentService;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = {"/", ""})
     public String komitenti(Model model) {
         model.addAttribute("komitenti", komitentService.vratiKomitente());
         return "komitent";

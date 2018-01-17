@@ -1,9 +1,6 @@
 package com.fon.fpis.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,13 +9,13 @@ import javax.persistence.*;
  * Created on 12-Jan-18
  */
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class StavkaZahtevaZaNabavku {
     @Id
-    @GeneratedValue
     private Long id;
 
     @OneToOne
@@ -30,4 +27,7 @@ public class StavkaZahtevaZaNabavku {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zahtev")
     private ZahtevZaNabavku zahtev;
+
+    @Transient
+    private Long rb;
 }

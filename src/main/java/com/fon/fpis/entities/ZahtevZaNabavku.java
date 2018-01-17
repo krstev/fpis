@@ -1,9 +1,6 @@
 package com.fon.fpis.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,10 +9,12 @@ import java.util.List;
 
 /**
  * @author fkrstev
- *         Created on 12-Jan-18
+ * Created on 12-Jan-18
  */
-@Entity
 @Data
+@Entity
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,11 +26,22 @@ public class ZahtevZaNabavku {
     @Builder.Default
     private Date kreiran = new Date();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "kreirao")
     private Radnik kreirao;
 
     @OneToMany(mappedBy = "zahtev")
     @Builder.Default
     private List<StavkaZahtevaZaNabavku> stavke = new ArrayList<>();
+
+    @Transient
+    @Builder.Default
+    private List<StavkaZahtevaZaNabavku> stavkeZaBrisanje = new ArrayList<>();
+
+    public List<StavkaZahtevaZaNabavku> getStavkeZaBrisanje() {
+        if (stavkeZaBrisanje == null) {
+            stavkeZaBrisanje = new ArrayList<>();
+        }
+        return stavkeZaBrisanje;
+    }
 }

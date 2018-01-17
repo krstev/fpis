@@ -3,67 +3,71 @@
 <head>
     <meta charset="UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="style.css"/>-->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}" type="text/css"/>
     <title>Lista komitenata</title>
 
 </head>
 <body>
-<h1>Komitenti</h1>
-<table>
-    <table th:border="1" class="table">
-        <thead>
-        <tr>
-            <th>Rb</th>
-            <th>PIB</th>
-            <th>Naziv</th>
-            <th>Izmeni</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="komitent,iter : ${komitenti}">
-            <th th:text="1+${iter.index}"></th>
-            <th th:text="${komitent.pib}"></th>
-            <th th:text="${komitent.naziv}"></th>
-            <th>
-                <button th:onclick="'izmeniKomitenta(\''+${komitent.pib}+'\');'">Izmeni</button>
-                <button th:onclick="'obrisiKomitenta(\''+${komitent.pib}+'\');'" >Obrisi</button>
-            </th>
-        </tr>
-        </tbody>
+<div class="sredina">
 
+
+    <h1>Komitenti</h1>
+    <table>
+        <table th:border="1" class="table">
+            <thead>
+            <tr>
+                <th>Rb</th>
+                <th>PIB</th>
+                <th>Naziv</th>
+                <th>Izmeni</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="komitent,iter : ${komitenti}">
+                <th th:text="1+${iter.index}"></th>
+                <th th:text="${komitent.pib}"></th>
+                <th th:text="${komitent.naziv}"></th>
+                <th>
+                    <button th:onclick="'izmeniKomitenta(\''+${komitent.pib}+'\');'">Izmeni</button>
+                    <button th:onclick="'obrisiKomitenta(\''+${komitent.pib}+'\');'">Obrisi</button>
+                </th>
+            </tr>
+            </tbody>
+
+        </table>
     </table>
-</table>
 
-<form th:action="@{/komitent/forma}" method="GET"
-      id="dodajKomitenta">
-    <button class="btn__submit" type="submit">Dodaj komitenta</button>
-</form>
+    <form th:action="@{/komitent/forma}" method="GET"
+          id="dodajKomitenta">
+        <button class="btn__submit" type="submit">Dodaj komitenta</button>
+    </form>
 
-<form style="display: none" th:action="@{/komitent/forma}" method="GET"
-      id="izmeniKomitenta">
-    <div class="form__field form__field--code">
-        <input class="form__field"
-               type="text"
-               id="pibParam"
-               name="pib"
-        >
-        </input>
-    </div>
-    <button class="btn__submit" type="submit"></button>
-</form>
+    <form style="display: none" th:action="@{/komitent/forma}" method="GET"
+          id="izmeniKomitenta">
+        <div class="form__field form__field--code">
+            <input class="form__field"
+                   type="text"
+                   id="pibParam"
+                   name="pib"
+            >
+            </input>
+        </div>
+        <button class="btn__submit" type="submit"></button>
+    </form>
 
-<form style="display: none" th:action="@{/komitent/obrisi}" method="POST"
-      id="brisanjeKomitenta" onsubmit="reload()">
-    <div class="form__field form__field--code">
-        <input class="form__field"
-               type="text"
-               id="pibParamObrisi"
-               name="pib"
-        >
-        </input>
-    </div>
-    <button class="btn__submit" type="submit"></button>
-</form>
+    <form style="display: none" th:action="@{/komitent/obrisi}" method="POST"
+          id="brisanjeKomitenta" onsubmit="reload()">
+        <div class="form__field form__field--code">
+            <input class="form__field"
+                   type="text"
+                   id="pibParamObrisi"
+                   name="pib"
+            >
+            </input>
+        </div>
+        <button class="btn__submit" type="submit"></button>
+    </form>
+</div>
 </body>
 </html>
 <script>

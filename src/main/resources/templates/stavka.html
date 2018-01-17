@@ -3,88 +3,37 @@
 <head>
     <meta charset="UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="style.css"/>-->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}" type="text/css"/>
     <title>Dodavanje stavke naloga za nabavku</title>
 
 </head>
 <body>
-<h1>Nova stavka</h1>
+<div class="sredina">
 
-<form th:action="@{/zahtev/sacuvajStavku}" method="POST">
-    <h3 class="form__field-label">Artikal:</h3>
-    <div class="form__field form__field--code">
-        <select field="artikal" name="artikal">
-            <option th:each="artikal : ${artikli}"
-                    th:value="${artikal.kataloskiBroj}"
-                    th:text="${artikal.naziv}">
-            </option>
-        </select>
-    </div>
+    <h1>Nova stavka</h1>
 
-    <h3 class="form__field-label">Kolicina:</h3>
-    <div class="form__field form__field--code">
-        <input type="text" name="kolicina" th:value="*{stavka.kolicina}"/>
-    </div>
+    <form th:action="@{/zahtev/sacuvajStavku}" method="POST">
+        <h3 class="form__field-label">Artikal:</h3>
+        <div class="form__field form__field--code">
+            <select field="artikal" name="artikal" th:selected="${stavka.artikal}">
+                <option th:each="artikal : ${artikli}"
+                        th:value="${artikal.kataloskiBroj}"
+                        th:text="${artikal.naziv}"
+                        th:selected="*{artikal==stavka.artikal}">
+                </option>
+            </select>
+        </div>
 
-    <button class="btn__submit" type="submit">Sacuvaj</button>
-</form>
+        <h3 class="form__field-label">Kolicina:</h3>
+        <div class="form__field form__field--code">
+            <input type="text" name="kolicina" th:value="*{stavka.kolicina}"/>
+        </div>
 
+        <input style="display: none" type="text" name="rb" th:value="*{stavka.rb}"/>
+        <input style="display: none" type="text" name="id" th:value="*{stavka.id}"/>
+        <button class="btn__submit" type="submit">Sacuvaj</button>
+    </form>
+</div>
 
-<form th:action="@{/zahtev/forma}" method="GET"
-      id="dodajStavku">
-    <button class="btn__submit" type="submit">Napravi zahtev</button>
-</form>
-
-<form th:action="@{/zahtev/forma}" method="GET"
-      id="dodajZahtev">
-    <button class="btn__submit" type="submit">Napravi zahtev</button>
-</form>
-
-<form style="display: none" th:action="@{/komitent/forma}" method="GET"
-      id="izmeniKomitenta">
-    <div class="form__field form__field--code">
-        <input class="form__field"
-               type="text"
-               id="pibParam"
-               name="pib"
-        >
-        </input>
-    </div>
-    <button class="btn__submit" type="submit"></button>
-</form>
-
-<form style="display: none" th:action="@{/komitent/obrisi}" method="POST"
-      id="brisanjeKomitenta" onsubmit="reload()">
-    <div class="form__field form__field--code">
-        <input class="form__field"
-               type="text"
-               id="pibParamObrisi"
-               name="pib"
-        >
-        </input>
-    </div>
-    <button class="btn__submit" type="submit"></button>
-</form>
 </body>
 </html>
-<script>
-
-    function reload() {
-        setTimeout
-        (function () {
-            window.location.reload();
-        }, 9000);
-    }
-
-    function izmeniKomitenta(pib) {
-        console.log('pib : ' + pib)
-        $('#pibParam').val(pib);
-        $('#izmeniKomitenta').submit();
-    }
-
-    function obrisiKomitenta(pib) {
-        console.log('pib : ' + pib)
-        $('#pibParamObrisi').val(pib);
-        $('#brisanjeKomitenta').submit();
-    }
-</script>

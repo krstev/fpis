@@ -1,5 +1,5 @@
 CREATE TABLE `zahtev_za_nabavku` (
-  `id` BIGINT(11) NOT NULL,
+  `id` BIGINT(11) NOT NULL AUTO_INCREMENT,
   `kreiran` DATETIME NULL,
   `kreirao` BIGINT(11) NULL,
   PRIMARY KEY (`id`),

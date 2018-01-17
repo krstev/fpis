@@ -3,67 +3,69 @@
 <head>
     <meta charset="UTF-8"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="style.css"/>-->
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}" type="text/css"/>
     <title>Lista zahteva za nabavku</title>
 
 </head>
 <body>
-<h1>Zahtevi za nabavku</h1>
-<table>
-    <table th:border="1" class="table">
-        <thead>
-        <tr>
-            <th>Rb</th>
-            <th>Datum kreiranja</th>
-            <th>Kreirao</th>
-            <th>Izmeni</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="zahtev,iter : ${zahtevi}">
-            <th th:text="1+${iter.index}"></th>
-            <th th:text="${zahtev.kreiran}"></th>
-            <th th:text="${zahtev.kreirao.ime}"></th>
-            <th>
-                <button th:onclick="'izmeniZahtev(\''+${zahtev.id}+'\');'">Izmeni</button>
-                <button th:onclick="'obrisiZahtev(\''+${zahtev.id}+'\');'">Obrisi</button>
-            </th>
-        </tr>
-        </tbody>
+<div class="sredina">
+    <h1>Zahtevi za nabavku</h1>
+    <table>
+        <table th:border="1" class="table">
+            <thead>
+            <tr>
+                <th>Rb</th>
+                <th>Datum kreiranja</th>
+                <th>Kreirao</th>
+                <th>Izmeni</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="zahtev,iter : ${zahtevi}">
+                <th th:text="1+${iter.index}"></th>
+                <th th:text="${zahtev.kreiran}"></th>
+                <th th:text="${zahtev.kreirao.punoIme()}"></th>
+                <th>
+                    <button th:onclick="'izmeniZahtev(\''+${zahtev.id}+'\');'">Izmeni</button>
+                    <button th:onclick="'obrisiZahtev(\''+${zahtev.id}+'\');'">Obrisi</button>
+                </th>
+            </tr>
+            </tbody>
 
+        </table>
     </table>
-</table>
 
-<form th:action="@{/zahtev/forma}" method="GET"
-      id="dodajZahtev">
-    <button class="btn__submit" type="submit">Napravi zahtev</button>
-</form>
+    <form th:action="@{/zahtev/forma}" method="GET"
+          id="dodajZahtev">
+        <button class="btn__submit" type="submit">Napravi zahtev</button>
+    </form>
 
-<form style="display: none" th:action="@{/zahtev/forma}" method="GET"
-      id="izmeniZahtev">
-    <div class="form__field form__field--code">
-        <input class="form__field"
-               type="text"
-               id="idParam"
-               name="pib"
-        >
-        </input>
-    </div>
-    <button class="btn__submit" type="submit"></button>
-</form>
+    <form style="display: none" th:action="@{/zahtev/forma}" method="GET"
+          id="izmeniZahtev">
+        <div class="form__field form__field--code">
+            <input class="form__field"
+                   type="text"
+                   id="idParam"
+                   name="id"
+            >
+            </input>
+        </div>
+        <button class="btn__submit" type="submit"></button>
+    </form>
 
-<form style="display: none" th:action="@{/komitent/obrisi}" method="POST"
-      id="brisanjeZahteva" onsubmit="reload()">
-    <div class="form__field form__field--code">
-        <input class="form__field"
-               type="text"
-               id="idParamObrisi"
-               name="pib"
-        >
-        </input>
-    </div>
-    <button class="btn__submit" type="submit"></button>
-</form>
+    <form style="display: none" th:action="@{/zahtev/obrisi}" method="POST"
+          id="brisanjeZahteva" onsubmit="reload()">
+        <div class="form__field form__field--code">
+            <input class="form__field"
+                   type="text"
+                   id="idParamObrisi"
+                   name="id"
+            >
+            </input>
+        </div>
+        <button class="btn__submit" type="submit"></button>
+    </form>
+</div>
 </body>
 </html>
 <script>

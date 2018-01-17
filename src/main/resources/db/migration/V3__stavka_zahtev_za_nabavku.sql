@@ -1,5 +1,5 @@
 CREATE TABLE `stavka_zahteva_za_nabavku` (
-  `id` BIGINT(11) NOT NULL AUTO_INCREMENT,
+  `id` BIGINT(11) NOT NULL DEFAULT 0,
   `artikal` BIGINT(11) NULL,
   `kolicina` INT NULL,
   PRIMARY KEY (`id`),
