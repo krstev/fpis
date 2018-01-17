@@ -88,7 +88,7 @@ public class ZahtevZaNabavkuController {
     public String obrisiStavku(Model model, HttpSession session, @RequestParam(value = "rb") int rb) {
         ZahtevZaNabavku zahtevZaNabavku = (ZahtevZaNabavku) session.getAttribute("zahtev");
         StavkaZahtevaZaNabavku stavkaZahtevaZaNabavku = zahtevZaNabavku.getStavke().remove(rb);
-        if (zahtevZaNabavku.getId() != null) {
+        if (zahtevZaNabavku.getId() != null && stavkaZahtevaZaNabavku.getId() != null) {
             zahtevZaNabavku.getStavkeZaBrisanje().add(stavkaZahtevaZaNabavku);
         }
         return zahtev(model, zahtevZaNabavku);

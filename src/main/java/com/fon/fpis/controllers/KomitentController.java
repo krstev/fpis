@@ -1,5 +1,6 @@
 package com.fon.fpis.controllers;
 
+import com.fon.fpis.clients.WSFPISClient;
 import com.fon.fpis.entities.Komitent;
 import com.fon.fpis.services.KomitentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class KomitentController {
     @Autowired
     private KomitentService komitentService;
 
+    @Autowired
+    private WSFPISClient wsfpisClient;
+
     @RequestMapping(value = {"/", ""})
     public String komitenti(Model model) {
         model.addAttribute("komitenti", komitentService.vratiKomitente());
@@ -38,6 +42,7 @@ public class KomitentController {
 
     @RequestMapping(value = "/sacuvaj", method = RequestMethod.POST)
     public String dodajIzmeniKomitenta(Model model, @RequestParam(value = "pib") Long pib, @RequestParam(value = "naziv") String naziv, @RequestParam(value = "adresa", required = false) String adresa, @RequestParam(value = "telefon", required = false) String telefon, @RequestParam(value = "fax", required = false) String fax, @RequestParam(value = "website", required = false) String website, @RequestParam(value = "email", required = false) String email, @RequestParam(value = "registarskiBroj") String registarskiBroj, @RequestParam(value = "sifraDelatnosti") int sifraDelatnosti) {
+        wsfpisClient.sacuvaj(pib, naziv, adresa, telefon, fax, website, email, registarskiBroj, sifraDelatnosti);
         Komitent komitent = Komitent.builder()
                 .pib(pib)
                 .naziv(naziv)
@@ -49,7 +54,6 @@ public class KomitentController {
                 .registarskiBroj(registarskiBroj)
                 .sifraDelatnosti(sifraDelatnosti)
                 .build();
-        komitentService.sacuvajKomitenta(komitent);
         model.addAttribute("komitent", komitent);
         return komitenti(model);
     }
